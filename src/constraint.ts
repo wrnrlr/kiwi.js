@@ -6,9 +6,9 @@
 | The full license is in the file COPYING.txt, distributed with this software.
 |----------------------------------------------------------------------------*/
 
-import { Expression } from "./expression";
-import { Strength } from "./strength";
-import { Variable } from "./variable";
+import { Expression } from "./expression.ts";
+import { Strength } from "./strength.ts";
+import { Variable } from "./variable.ts";
 
 /**
  * An enum defining the linear constraint operators.
@@ -51,8 +51,11 @@ class Constraint {
         this._strength = Strength.clip(strength);
         if ((rhs === undefined) && (expression instanceof Expression)) {
             this._expression = expression;
-        } else {
+        } else if (rhs !== undefined) {
             this._expression = expression.minus(rhs);
+        } else {
+            this._expression = new Expression()
+            console.log("shouldn't happen")
         }
     }
 

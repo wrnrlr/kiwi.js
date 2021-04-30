@@ -6,8 +6,8 @@
 | The full license is in the file COPYING.txt, distributed with this software.
 |----------------------------------------------------------------------------*/
 
-export * from "./constraint";
-export * from "./expression";
-export * from "./solver";
-export * from "./strength";
-export * from "./variable";
+export * from "./constraint.ts";
+export * from "./expression.ts";
+export * from "./solver.ts";
+export * from "./strength.ts";
+export * from "./variable.ts";

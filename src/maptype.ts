@@ -108,11 +108,11 @@ class IndexedMap<T extends { id(): number }, U> {
     public erase(key: T): Pair<T, U> {
         const i = this.index[key.id()];
         if (i === undefined) {
-            return undefined;
+            return undefined as unknown as Pair<T, U>;
         }
         this.index[key.id()] = undefined;
         const pair = this.array[i];
-        const last = this.array.pop();
+        const last = this.array.pop() as Pair<T, U>;
         if (pair !== last) {
             this.array[i] = last;
             this.index[last.first.id()] = i;

@@ -6,7 +6,7 @@
 | The full license is in the file COPYING.txt, distributed with this software.
 |----------------------------------------------------------------------------*/
 
-import { Expression } from "./expression";
+import { Expression } from "./expression.ts";
 
 /**
  * The primary user constraint variable.

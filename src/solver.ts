@@ -6,11 +6,11 @@
 | The full license is in the file COPYING.txt, distributed with this software.
 |----------------------------------------------------------------------------*/
 
-import { Constraint, Operator } from "./constraint";
-import { Expression } from "./expression";
-import { createMap, IMap } from "./maptype";
-import { Strength } from "./strength";
-import { Variable } from "./variable";
+import { Constraint, Operator } from "./constraint.ts";
+import { Expression } from "./expression.ts";
+import { createMap, IMap } from "./maptype.ts";
+import { Strength } from "./strength.ts";
+import { Variable } from "./variable.ts";
 
 /**
  * The constraint solver class.
@@ -163,7 +163,12 @@ class Solver {
         let expr = new Expression( variable );
         let cn = new Constraint( expr, Operator.Eq, undefined, strength );
         this.addConstraint( cn );
-        let tag = this._cnMap.find( cn ).second;
+        let found = this._cnMap.find( cn )
+        if (found === undefined) {
+            console.log('tried to find unknown constraint')
+            return
+        }
+        let tag = found.second;
         let info = { tag, constraint: cn, constant: 0.0 };
         this._editMap.insert( variable, info );
     }
@@ -411,7 +416,7 @@ class Solver {
         // only if the artificial objective is optimized to zero.
         this._optimize( this._artificial );
         let success = nearZero( this._artificial.constant() );
-        this._artificial = null;
+        this._artificial = null!;
 
         // If the artificial variable is basic, pivot the row so that
         // it becomes non-basic. If the row is constant, exit early.
@@ -503,7 +508,7 @@ class Solver {
         let rows = this._rowMap;
         let infeasible = this._infeasibleRows;
         while ( infeasible.length !== 0 ) {
-            let leaving = infeasible.pop();
+            let leaving = infeasible.pop()!;
             let pair = rows.find( leaving );
             if ( pair !== undefined && pair.second.constant() < 0.0 ) {
                 let entering = this._getDualEnteringSymbol( pair.second );
@@ -730,7 +735,7 @@ class Solver {
     private _editMap = createEditMap();
     private _infeasibleRows: Symbol[] = [];
     private _objective: Row = new Row();
-    private _artificial: Row = null;
+    private _artificial: Row = null!;
     private _idTick: number = 0;
 }
 
